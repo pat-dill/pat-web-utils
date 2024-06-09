@@ -1,0 +1,29 @@
+{
+  "dependencies": {
+    "bezier-easing": "^2.1.0",
+    "colorthief": "^2.4.0",
+    "usehooks-ts": "^3.1.0"
+  },
+  "name": "pat-web-utils",
+  "version": "1.0.0",
+  "description": "pat's web utils",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "devDependencies": {
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "@types/react-query": "^1.2.9",
+    "prettier": "^3.2.5",
+    "typescript": "^5.4.5"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "pat dill <jamespatrickdill@gmail.com>",
+  "license": "ISC",
+  "peerDependencies": {
+    "react": "^18",
+    "react-dom": "^18",
+    "react-query": "^3.39.3"
+  }
+}

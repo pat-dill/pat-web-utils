@@ -87,7 +87,7 @@ function springCoefficients(time: number, damping: number, speed: number) {
 }
 
 
-export default function useSpring(goal: number, damping: number = 1, speed: number = 10) {
+export function useSpring(goal: number, damping: number = 1, speed: number = 10) {
     const [position, setPosition] = useState(goal);
     const springRef = useRef<Spring>({
         prevDisplacement: 0,

@@ -1,6 +1,6 @@
 import {MutableRefObject, useEffect, useState} from "react";
 import ColorThief from "colorthief";
-import {rgbToHex} from "@/contrast";
+import {rgbToHex} from "../contrast";
 import {useQuery} from "react-query";
 
 const cf = new ColorThief();
@@ -10,7 +10,7 @@ const getImageColor = (img: HTMLImageElement) => {
     return rgbToHex(r, g, b);
 }
 
-export default function useImageColor(imgRef: MutableRefObject<HTMLImageElement>): string | undefined {
+export function useImageColor(imgRef: MutableRefObject<HTMLImageElement>): string | undefined {
     const [color, setColor] = useState<string>();
 
     useEffect(() => {

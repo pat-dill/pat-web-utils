@@ -1,6 +1,6 @@
 import {useEffect, useRef} from "react";
 
-export default function useSyncedInterval(cb: () => void, intervalMs: number, offsetMs: number = 0) {
+export function useSyncedInterval(cb: () => void, intervalMs: number, offsetMs: number = 0) {
     // Hook that runs a callback on an interval. Multiple instances of this
     // hook with the same interval will run in sync.
 
