@@ -41,7 +41,7 @@ export function FadingContainer(
     const maskTop = (!fadeOnlyAfterScroll || scrollTop > 0) ? "#000000" : "#ffffff";
     const maskBottom = (!fadeOnlyAfterScroll || scrollBottom > 0) ? "#000000" : "#ffffff";
 
-    const mask = useMemo(() => {
+    const linearGradient = useMemo(() => {
         if (typeof fade === "number") fade = `${fade}px`;
         const stop1 = fade;
         const stop2 = `calc(100% - ${fade})`;
@@ -55,7 +55,7 @@ export function FadingContainer(
             ref={scrollRef}
             style={{
                 ...style,
-                maskImage: mask,
+                maskImage: linearGradient,
                 maskMode: "luminance",
                 overflowX: scrollDirection === "horizontal" ? "scroll" : "hidden",
                 overflowY: scrollDirection === "vertical" ? "scroll" : "hidden",
