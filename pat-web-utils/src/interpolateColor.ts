@@ -4,9 +4,9 @@ const is = {
     col: (a: string) => (is.hex(a) || is.rgb(a)),
 }
 
-const convertToRgba = (colour: string) => {
-    return is.hex(colour) ? hexToRgba(colour)
-        : is.rgb(colour) ? rbgToRgba(colour)
+export const convertToRgba = (colour: string, alpha?: number) => {
+    return is.hex(colour) ? hexToRgba(colour, alpha)
+        : is.rgb(colour) ? rbgToRgba(colour, alpha)
             : colour
 }
 
@@ -14,12 +14,12 @@ const hexToRgba = (colour: string, alpha = 1) => {
     const match = colour.match(/\w\w/g);
     if (!match) throw new Error("invalid color");
     const [r, g, b] = match.map(x => parseInt(x, 16))
-    return `rgba(${r},${g},${b},${alpha})`
+    return `rgba(${r},${g},${b},${alpha ?? 1})`
 };
 
 const rbgToRgba = (colour: string, alpha = 1) => {
     const [r, g, b] = colour.replace(/[^\d,]/g, '').split(',')
-    return `rgba(${r},${g},${b},${alpha})`
+    return `rgba(${r},${g},${b},${alpha ?? 1})`
 }
 
 const deconstructRgba = (rgba: string) => {
