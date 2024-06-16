@@ -1,8 +1,9 @@
-import {createContext, CSSProperties, ReactNode, useContext, useMemo, useRef, useState} from "react";
+import {createContext, CSSProperties, ReactNode, useContext, useEffect, useMemo, useRef, useState} from "react";
 import {useAnimationFrame} from "../hooks";
 import bezier from "bezier-easing";
 import {easingGradient} from "../easingGradient";
 import {convertToRgba} from "../interpolateColor";
+import {useRollingAverage} from "../hooks/useRollingAverage";
 
 type ScrollPosition = { scrollTop: number, scrollBottom: number };
 const scrollContext = createContext<ScrollPosition>(undefined!);
@@ -33,6 +34,7 @@ type FadingContainerProps = {
     innerStyle?: CSSProperties,
     innerCls?: string,
     easingFunc?: (x: number) => number,
+    loadMore?: () => Promise<unknown>,
     [_: string]: any
 } & (MaskProps | OverlayProps);
 
@@ -49,6 +51,7 @@ export function FadingContainer(
         mode = "mask",
         overlayColor,
         easingFunc = cubicBezier,
+        loadMore,
         ...rest
     }: FadingContainerProps
 ) {
@@ -60,11 +63,42 @@ export function FadingContainer(
 
     const {scrollTop, scrollBottom} = scrollPosition;
 
-    useAnimationFrame(() => {
+    const [averageLoadTime, recordLoadTime] = useRollingAverage(5, 0.1);
+    const isLoading = useRef<boolean>(false);
+    const loadAndRecord = async () => {
+        if (!loadMore) return;
+
+        const startTime = performance.now() / 1000;
+        isLoading.current = true;
+        try {
+            await loadMore();
+        } catch (e) {
+            console.error(e);
+        }
+        const finishTime = performance.now() / 1000;
+        isLoading.current = false;
+        recordLoadTime(finishTime - startTime);
+    }
+
+    const prevScrollTop = useRef<number>(0);
+    const prevApproachingBottom = useRef<boolean>(false);
+    useAnimationFrame(({delta}) => {
         if (scrollRef.current) {
             const {scrollTop, offsetHeight, scrollHeight} = scrollRef.current;
             const scrollBottom = scrollHeight - offsetHeight - scrollTop;
             setScrollPosition({scrollTop, scrollBottom});
+
+            const scrollSpeed = (scrollTop - prevScrollTop.current) / delta;
+            prevScrollTop.current = scrollTop;
+
+            const timeUntilBottom = scrollBottom / scrollSpeed;
+            const approachingBottom = scrollSpeed > 0 && timeUntilBottom <= averageLoadTime + 0.1;
+            if (approachingBottom && !prevApproachingBottom.current && !isLoading.current) {
+                prevApproachingBottom.current = true;
+                loadAndRecord().then();
+            } else if (!approachingBottom) {
+                prevApproachingBottom.current = false;
+            }
         }
     });
 
