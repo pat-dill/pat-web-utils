@@ -29,8 +29,6 @@ function App() {
                 <FadingContainer
                     className="w-full h-full"
                     innerCls="p-8 py-[50px] text-xl"
-                    mode="overlay"
-                    overlayColor={colors.gray["200"]}
                     fade={100}
                     onScroll={(e) => {
                         setScrollTop(e.target.scrollTop);
