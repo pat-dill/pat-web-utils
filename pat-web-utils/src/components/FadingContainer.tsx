@@ -100,13 +100,8 @@ export function FadingContainer({
             prevScrollTop.current = scrollTop;
 
             const timeUntilBottom = scrollBottom / scrollSpeed;
-            const approachingBottom =
-                scrollSpeed > 0 && timeUntilBottom <= averageLoadTime + 0.1;
-            if (
-                approachingBottom &&
-                !prevApproachingBottom.current &&
-                !isLoading.current
-            ) {
+            const approachingBottom = scrollSpeed > 0 && timeUntilBottom <= averageLoadTime + 0.1;
+            if (approachingBottom && !prevApproachingBottom.current && !isLoading.current) {
                 prevApproachingBottom.current = true;
                 loadAndRecord().then();
             } else if (!approachingBottom) {
@@ -116,12 +111,9 @@ export function FadingContainer({
     });
 
     const fadeColor = mode === "mask" ? "#000000" : (overlayColor as string);
-    const noFadeColor =
-        mode === "mask" ? "#ffffff" : convertToRgba(overlayColor as string, 0);
-    const gradientStart =
-        !fadeOnlyAfterScroll || scrollTop > 0 ? fadeColor : noFadeColor;
-    const gradientEnd =
-        !fadeOnlyAfterScroll || scrollBottom > 0 ? fadeColor : noFadeColor;
+    const noFadeColor = mode === "mask" ? "#ffffff" : convertToRgba(overlayColor as string, 0);
+    const gradientStart = !fadeOnlyAfterScroll || scrollTop > 0 ? fadeColor : noFadeColor;
+    const gradientEnd = !fadeOnlyAfterScroll || scrollBottom > 0 ? fadeColor : noFadeColor;
 
     const linearGradient = useMemo(() => {
         if (typeof fade === "number") fade = `${fade}px`;
@@ -141,8 +133,7 @@ export function FadingContainer({
             stop2,
             "100%"
         );
-        const gradientDir =
-            scrollDirection === "vertical" ? "to bottom" : "to right";
+        const gradientDir = scrollDirection === "vertical" ? "to bottom" : "to right";
         return `linear-gradient(${gradientDir}, ${gradient1}, ${gradient2})`;
     }, [fade, fadeColor, noFadeColor, gradientStart, gradientEnd]);
 
@@ -159,14 +150,8 @@ export function FadingContainer({
             >
                 <div
                     style={{
-                        overflowX:
-                            scrollDirection === "horizontal"
-                                ? "scroll"
-                                : "hidden",
-                        overflowY:
-                            scrollDirection === "vertical"
-                                ? "scroll"
-                                : "hidden",
+                        overflowX: scrollDirection === "horizontal" ? "scroll" : "hidden",
+                        overflowY: scrollDirection === "vertical" ? "scroll" : "hidden",
                         width: "100%",
                         height: "100%",
                         ...innerStyle,

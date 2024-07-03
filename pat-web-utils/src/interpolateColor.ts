@@ -5,11 +5,7 @@ const is = {
 };
 
 export const convertToRgba = (colour: string, alpha?: number) => {
-    return is.hex(colour)
-        ? hexToRgba(colour, alpha)
-        : is.rgb(colour)
-          ? rbgToRgba(colour, alpha)
-          : colour;
+    return is.hex(colour) ? hexToRgba(colour, alpha) : is.rgb(colour) ? rbgToRgba(colour, alpha) : colour;
 };
 
 const hexToRgba = (colour: string, alpha = 1) => {
@@ -35,11 +31,7 @@ const formatRbga = (colour: { r: number; g: number; b: number; a: number }) => {
     return `rgba(${colour.r},${colour.g},${colour.b},${colour.a})`;
 };
 
-export const interpolateColor = (
-    colourA: string,
-    colourB: string,
-    progress: number
-) => {
+export const interpolateColor = (colourA: string, colourB: string, progress: number) => {
     const [r1, g1, b1, a1] = deconstructRgba(convertToRgba(colourA));
     const [r2, g2, b2, a2] = deconstructRgba(convertToRgba(colourB));
     return formatRbga({

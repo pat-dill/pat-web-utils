@@ -84,11 +84,7 @@ function springCoefficients(time: number, damping: number, speed: number) {
     return [posPos, posVel, velPos, velVel];
 }
 
-export function useSpring(
-    goal: number,
-    damping: number = 1,
-    speed: number = 10
-) {
+export function useSpring(goal: number, damping: number = 1, speed: number = 10) {
     const [position, setPosition] = useState(goal);
     const springRef = useRef<Spring>({
         prevDisplacement: 0,
@@ -111,10 +107,7 @@ export function useSpring(
             spring.speed
         );
 
-        if (
-            Math.abs(spring.displacement) <= EPSILON &&
-            Math.abs(spring.velocity) <= EPSILON
-        ) {
+        if (Math.abs(spring.displacement) <= EPSILON && Math.abs(spring.velocity) <= EPSILON) {
             if (spring.displacement > 0 || spring.velocity > 0) {
                 setPosition(spring.position);
             }
@@ -122,10 +115,8 @@ export function useSpring(
             spring.displacement = 0;
             spring.position = spring.goal;
         } else {
-            spring.velocity =
-                spring.prevDisplacement * velPos + spring.prevVelocity * velVel;
-            spring.displacement =
-                spring.prevDisplacement * posPos + spring.prevVelocity * posVel;
+            spring.velocity = spring.prevDisplacement * velPos + spring.prevVelocity * velVel;
+            spring.displacement = spring.prevDisplacement * posPos + spring.prevVelocity * posVel;
             spring.position = spring.goal + spring.displacement;
             setPosition(spring.position);
         }
@@ -147,8 +138,7 @@ export function useSpring(
     useEffect(() => {
         requestRef.current = requestAnimationFrame(animate);
         return () => {
-            if (requestRef.current)
-                cancelAnimationFrame(requestRef.current as number);
+            if (requestRef.current) cancelAnimationFrame(requestRef.current as number);
         };
     }, []);
 

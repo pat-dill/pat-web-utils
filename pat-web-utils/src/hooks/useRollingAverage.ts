@@ -17,8 +17,5 @@ export function useRollingAverage(
     if (values.length === 0) {
         return [initialValue, record];
     }
-    return [
-        values.reduce((prev, cur) => prev + cur, 0) / values.length,
-        record,
-    ];
+    return [values.reduce((prev, cur) => prev + cur, 0) / values.length, record];
 }
