@@ -1,6 +1,6 @@
-import {useLayoutEffect, useRef} from "react";
+import { useLayoutEffect, useRef } from "react";
 
-type AnimationCb = ({time, delta}: { time: number, delta: number }) => any;
+type AnimationCb = ({ time, delta }: { time: number; delta: number }) => any;
 
 export function useAnimationFrame(cb: AnimationCb) {
     if (typeof performance === "undefined" || typeof window === "undefined") {
@@ -15,10 +15,11 @@ export function useAnimationFrame(cb: AnimationCb) {
     cbRef.current = cb;
 
     const animate = (now: number) => {
-        if (cbRef.current) cbRef.current({
-            time: (now - init.current) / 1000,
-            delta: (now - last.current) / 1000,
-        });
+        if (cbRef.current)
+            cbRef.current({
+                time: (now - init.current) / 1000,
+                delta: (now - last.current) / 1000,
+            });
         last.current = now;
         frame.current = requestAnimationFrame(animate);
     };
@@ -28,6 +29,6 @@ export function useAnimationFrame(cb: AnimationCb) {
 
         return () => {
             if (frame.current) cancelAnimationFrame(frame.current as number);
-        }
+        };
     }, []);
 }

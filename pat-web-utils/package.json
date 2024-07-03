@@ -25,5 +25,11 @@
     "react": "^18",
     "react-dom": "^18",
     "react-query": "^3.39.3"
+  },
+  "prettier": {
+    "trailingComma": "es5",
+    "tabWidth": 4,
+    "semi": true,
+    "singleQuote": false
   }
 }

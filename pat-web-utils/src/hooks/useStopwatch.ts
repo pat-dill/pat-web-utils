@@ -1,4 +1,4 @@
-import {useState} from "react";
+import { useState } from "react";
 
 export function useStopwatch(): [() => void, () => number, Date] {
     const [lapTime, setLapTime] = useState(new Date());

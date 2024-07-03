@@ -1,10 +1,15 @@
-import {useEffect, useRef} from "react";
+import { useEffect, useRef } from "react";
 
-export function useSyncedInterval(cb: () => void, intervalMs: number, offsetMs: number = 0) {
+export function useSyncedInterval(
+    cb: () => void,
+    intervalMs: number,
+    offsetMs: number = 0
+) {
     // Hook that runs a callback on an interval. Multiple instances of this
     // hook with the same interval will run in sync.
 
-    const getCounter = () => Math.floor((new Date().valueOf() - offsetMs) / intervalMs);
+    const getCounter = () =>
+        Math.floor((new Date().valueOf() - offsetMs) / intervalMs);
 
     const requestRef = useRef<number>();
     const counter = useRef<number>(getCounter());
@@ -16,13 +21,13 @@ export function useSyncedInterval(cb: () => void, intervalMs: number, offsetMs: 
             try {
                 const promise = new Promise<void>(function (resolve) {
                     try {
-                        cb()
+                        cb();
                     } catch (e) {
-                        console.error(e)
+                        console.error(e);
                     }
-                    resolve()
-                })
-                promise.then()
+                    resolve();
+                });
+                promise.then();
             } catch (e) {
                 console.error(e);
             }
@@ -31,12 +36,13 @@ export function useSyncedInterval(cb: () => void, intervalMs: number, offsetMs: 
         }
 
         requestRef.current = requestAnimationFrame(animate);
-    }
+    };
 
     useEffect(() => {
         requestRef.current = requestAnimationFrame(animate);
         return () => {
-            if (requestRef.current) cancelAnimationFrame(requestRef.current as number);
-        }
+            if (requestRef.current)
+                cancelAnimationFrame(requestRef.current as number);
+        };
     }, [cb, intervalMs, offsetMs]);
 }

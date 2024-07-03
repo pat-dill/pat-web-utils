@@ -3,9 +3,9 @@ export type SortOrder = "asc" | "desc";
 export type NullMode = "start" | "end";
 
 export interface SortStep<T> {
-    key: SortKey<T>
-    order?: SortOrder,
-    nulls?: NullMode
+    key: SortKey<T>;
+    order?: SortOrder;
+    nulls?: NullMode;
 }
 
 export function getCompareFn<T>(...sortKeys: (SortKey<T> | SortStep<T>)[]) {
@@ -13,20 +13,20 @@ export function getCompareFn<T>(...sortKeys: (SortKey<T> | SortStep<T>)[]) {
         throw new Error("No sort keys given");
     }
 
-    const sortSteps: SortStep<T>[] = sortKeys.map(step => {
+    const sortSteps: SortStep<T>[] = sortKeys.map((step) => {
         if (typeof step === "string" || typeof step === "function") {
-            return {key: step}
+            return { key: step };
         } else {
-            return step
+            return step;
         }
     });
 
     return (a: T, b: T): number => {
-        for (const {key, order = "asc", nulls = "end"} of sortSteps) {
+        for (const { key, order = "asc", nulls = "end" } of sortSteps) {
             let v_a, v_b;
             if (typeof key === "string") {
-                v_a = a[key as keyof T]
-                v_b = b[key as keyof T]
+                v_a = a[key as keyof T];
+                v_b = b[key as keyof T];
             } else {
                 v_a = key(a);
                 v_b = key(b);
@@ -38,15 +38,15 @@ export function getCompareFn<T>(...sortKeys: (SortKey<T> | SortStep<T>)[]) {
             }
 
             if (v_a == null) {
-                return nulls === "start" ? -1 : 1
+                return nulls === "start" ? -1 : 1;
             } else if (v_b == null) {
-                return nulls === "start" ? 1 : -1
+                return nulls === "start" ? 1 : -1;
             }
 
             const orderMultiplier = order === "asc" ? 1 : -1;
-            return orderMultiplier * Math.sign(v_a - v_b)
+            return orderMultiplier * Math.sign(v_a - v_b);
         }
 
-        return 0;  // all sort keys were equal
-    }
+        return 0; // all sort keys were equal
+    };
 }

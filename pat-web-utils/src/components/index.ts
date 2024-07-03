@@ -1,1 +1,1 @@
-export {FadingContainer} from "./FadingContainer";
+export { FadingContainer } from "./FadingContainer";
