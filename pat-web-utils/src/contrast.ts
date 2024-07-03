@@ -3,9 +3,9 @@ function getRGB(c: string) {
 }
 
 function getsRGB(c: string) {
-    return getRGB(c) / 255 <= 0.03928
-        ? getRGB(c) / 255 / 12.92
-        : Math.pow((getRGB(c) / 255 + 0.055) / 1.055, 2.4);
+    return getRGB(c) / 255 <= 0.03928 ?
+            getRGB(c) / 255 / 12.92
+        :   Math.pow((getRGB(c) / 255 + 0.055) / 1.055, 2.4);
 }
 
 export function getLuminance(hexColor: string) {

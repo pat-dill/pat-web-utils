@@ -31,6 +31,7 @@
     "tabWidth": 4,
     "semi": true,
     "singleQuote": false,
-    "printWidth": 110
+    "printWidth": 110,
+    "experimentalTernaries": true
   }
 }

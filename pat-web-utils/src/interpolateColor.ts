@@ -5,7 +5,11 @@ const is = {
 };
 
 export const convertToRgba = (colour: string, alpha?: number) => {
-    return is.hex(colour) ? hexToRgba(colour, alpha) : is.rgb(colour) ? rbgToRgba(colour, alpha) : colour;
+    return (
+        is.hex(colour) ? hexToRgba(colour, alpha)
+        : is.rgb(colour) ? rbgToRgba(colour, alpha)
+        : colour
+    );
 };
 
 const hexToRgba = (colour: string, alpha = 1) => {
