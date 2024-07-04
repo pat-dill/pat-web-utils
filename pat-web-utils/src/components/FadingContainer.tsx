@@ -100,7 +100,7 @@ export function FadingContainer({
             prevScrollTop.current = scrollTop;
 
             const timeUntilBottom = scrollBottom / scrollSpeed;
-            const approachingBottom = scrollSpeed > 0 && timeUntilBottom <= averageLoadTime + 0.1;
+            const approachingBottom = scrollSpeed > 0 && timeUntilBottom <= (averageLoadTime || 0) + 0.1;
             if (approachingBottom && !prevApproachingBottom.current && !isLoading.current) {
                 prevApproachingBottom.current = true;
                 loadAndRecord().then();
