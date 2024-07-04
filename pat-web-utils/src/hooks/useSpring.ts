@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import {useAnimationFrame} from "./useAnimationFrame";
 
 const getSeconds = () => new Date().valueOf() / 1000;
 
@@ -128,19 +129,14 @@ export function useSpring(goal: number, damping: number = 1, speed: number = 10)
         requestRef.current = requestAnimationFrame(animate);
     };
 
-    useEffect(() => {
-        spring.prevDisplacement = spring.displacement = spring.position - goal;
-        spring.goal = goal;
-        spring.speed = speed;
-        spring.damping = damping;
-    }, [goal, speed, damping]);
+    // useEffect(() => {
+    spring.prevDisplacement = spring.displacement = spring.position - goal;
+    spring.goal = goal;
+    spring.speed = speed;
+    spring.damping = damping;
+    // }, [goal, speed, damping]);
 
-    useEffect(() => {
-        requestRef.current = requestAnimationFrame(animate);
-        return () => {
-            if (requestRef.current) cancelAnimationFrame(requestRef.current as number);
-        };
-    }, []);
+    useAnimationFrame(animate);
 
     return position;
 }

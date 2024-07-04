@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.useSpring = void 0;
 const react_1 = require("react");
+const useAnimationFrame_1 = require("./useAnimationFrame");
 const getSeconds = () => new Date().valueOf() / 1000;
 const EPSILON = 0.001;
 function springCoefficients(time, damping, speed) {
@@ -101,19 +102,13 @@ function useSpring(goal, damping = 1, speed = 10) {
         spring.lastUpdate = getSeconds();
         requestRef.current = requestAnimationFrame(animate);
     };
-    (0, react_1.useEffect)(() => {
-        spring.prevDisplacement = spring.displacement = spring.position - goal;
-        spring.goal = goal;
-        spring.speed = speed;
-        spring.damping = damping;
-    }, [goal, speed, damping]);
-    (0, react_1.useEffect)(() => {
-        requestRef.current = requestAnimationFrame(animate);
-        return () => {
-            if (requestRef.current)
-                cancelAnimationFrame(requestRef.current);
-        };
-    }, []);
+    // useEffect(() => {
+    spring.prevDisplacement = spring.displacement = spring.position - goal;
+    spring.goal = goal;
+    spring.speed = speed;
+    spring.damping = damping;
+    // }, [goal, speed, damping]);
+    (0, useAnimationFrame_1.useAnimationFrame)(animate);
     return position;
 }
 exports.useSpring = useSpring;
