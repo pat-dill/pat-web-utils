@@ -4,14 +4,27 @@ type ScrollPosition = {
     scrollBottom: number;
 };
 export type ScrollDirection = "horizontal" | "vertical";
-export declare function FadingContainer({ children, className, style, scrollDirection, fade, fadeOnlyAfterScroll, ...rest }: {
-    className?: string;
+interface MaskProps {
+    mode?: "mask";
+    overlayColor?: string;
+}
+interface OverlayProps {
+    mode?: "overlay";
+    overlayColor: string;
+}
+type FadingContainerProps = {
     children?: ReactNode;
     scrollDirection?: ScrollDirection;
     fade?: string | number;
     fadeOnlyAfterScroll?: boolean;
+    className?: string;
     style?: CSSProperties;
+    innerStyle?: CSSProperties;
+    innerCls?: string;
+    easingFunc?: (x: number) => number;
+    loadMore?: () => Promise<unknown>;
     [_: string]: any;
-}): import("react/jsx-runtime").JSX.Element;
+} & (MaskProps | OverlayProps);
+export declare function FadingContainer({ children, className, style, innerStyle, innerCls, scrollDirection, fade, fadeOnlyAfterScroll, mode, overlayColor, easingFunc, loadMore, ...rest }: FadingContainerProps): import("react/jsx-runtime").JSX.Element;
 export declare const useScrollPosition: () => ScrollPosition;
 export {};
