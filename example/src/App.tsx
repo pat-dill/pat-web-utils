@@ -30,8 +30,8 @@ function App() {
                     className="w-full h-full"
                     innerCls="p-8 py-[50px] text-xl"
                     fade={100}
-                    onScroll={(e) => {
-                        setScrollTop(e.target.scrollTop);
+                    onScroll={(v) => {
+                        console.log(v);
                     }}
                     scrollTop={scrollTop}
                     loadMore={loadMore}

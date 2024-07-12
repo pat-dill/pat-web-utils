@@ -98,8 +98,8 @@ export function FadingContainer({
             const scrollBottom = scrollHeight - offsetHeight - scrollTop;
             setScrollPosition({ scrollTop, scrollBottom });
 
-            if (scrollTop !== prevScrollTop.current) {
-                onScroll?.(scrollTop);
+            if (onScroll && (scrollTop !== prevScrollTop.current)) {
+                onScroll(scrollTop);
             }
 
             const scrollSpeed = (scrollTop - prevScrollTop.current) / delta;
