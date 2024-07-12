@@ -44,6 +44,7 @@ type FadingContainerProps = {
     innerCls?: string;
     easingFunc?: (x: number) => number;
     loadMore?: () => Promise<unknown>;
+    onScroll?: (scrollStart: number) => void;
     [_: string]: any;
 } & (MaskProps | OverlayProps);
 
@@ -60,6 +61,7 @@ export function FadingContainer({
     overlayColor,
     easingFunc = cubicBezier,
     loadMore,
+    onScroll,
     ...rest
 }: FadingContainerProps) {
     const [scrollPosition, setScrollPosition] = useState<ScrollPosition>({
@@ -95,6 +97,10 @@ export function FadingContainer({
             const { scrollTop, offsetHeight, scrollHeight } = scrollRef.current;
             const scrollBottom = scrollHeight - offsetHeight - scrollTop;
             setScrollPosition({ scrollTop, scrollBottom });
+
+            if (scrollTop !== prevScrollTop.current) {
+                onScroll?.(scrollTop);
+            }
 
             const scrollSpeed = (scrollTop - prevScrollTop.current) / delta;
             prevScrollTop.current = scrollTop;

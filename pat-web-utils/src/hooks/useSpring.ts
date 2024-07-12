@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import {useAnimationFrame} from "./useAnimationFrame";
+import { useAnimationFrame } from "./useAnimationFrame";
 
 const getSeconds = () => new Date().valueOf() / 1000;
 

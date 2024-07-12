@@ -23,8 +23,9 @@ type FadingContainerProps = {
     innerCls?: string;
     easingFunc?: (x: number) => number;
     loadMore?: () => Promise<unknown>;
+    onScroll?: (scrollStart: number) => void;
     [_: string]: any;
 } & (MaskProps | OverlayProps);
-export declare function FadingContainer({ children, className, style, innerStyle, innerCls, scrollDirection, fade, fadeOnlyAfterScroll, mode, overlayColor, easingFunc, loadMore, ...rest }: FadingContainerProps): import("react/jsx-runtime").JSX.Element;
+export declare function FadingContainer({ children, className, style, innerStyle, innerCls, scrollDirection, fade, fadeOnlyAfterScroll, mode, overlayColor, easingFunc, loadMore, onScroll, ...rest }: FadingContainerProps): import("react/jsx-runtime").JSX.Element;
 export declare const useScrollPosition: () => ScrollPosition;
 export {};

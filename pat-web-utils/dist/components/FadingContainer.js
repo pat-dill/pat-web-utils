@@ -34,7 +34,7 @@ const useRollingAverage_1 = require("../hooks/useRollingAverage");
 const scrollContext = (0, react_1.createContext)(undefined);
 const cubicBezier = (0, bezier_easing_1.default)(0.4, 0, 0.6, 1);
 function FadingContainer(_a) {
-    var { children, className, style, innerStyle, innerCls, scrollDirection = "vertical", fade = 100, fadeOnlyAfterScroll = true, mode = "mask", overlayColor, easingFunc = cubicBezier, loadMore } = _a, rest = __rest(_a, ["children", "className", "style", "innerStyle", "innerCls", "scrollDirection", "fade", "fadeOnlyAfterScroll", "mode", "overlayColor", "easingFunc", "loadMore"]);
+    var { children, className, style, innerStyle, innerCls, scrollDirection = "vertical", fade = 100, fadeOnlyAfterScroll = true, mode = "mask", overlayColor, easingFunc = cubicBezier, loadMore, onScroll } = _a, rest = __rest(_a, ["children", "className", "style", "innerStyle", "innerCls", "scrollDirection", "fade", "fadeOnlyAfterScroll", "mode", "overlayColor", "easingFunc", "loadMore", "onScroll"]);
     const [scrollPosition, setScrollPosition] = (0, react_1.useState)({
         scrollTop: 0,
         scrollBottom: 0,
@@ -66,6 +66,9 @@ function FadingContainer(_a) {
             const { scrollTop, offsetHeight, scrollHeight } = scrollRef.current;
             const scrollBottom = scrollHeight - offsetHeight - scrollTop;
             setScrollPosition({ scrollTop, scrollBottom });
+            if (scrollTop !== prevScrollTop.current) {
+                onScroll === null || onScroll === void 0 ? void 0 : onScroll(scrollTop);
+            }
             const scrollSpeed = (scrollTop - prevScrollTop.current) / delta;
             prevScrollTop.current = scrollTop;
             const timeUntilBottom = scrollBottom / scrollSpeed;
