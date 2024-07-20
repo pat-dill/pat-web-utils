@@ -31,9 +31,9 @@ export function useSearchParam<T extends Json>(
     paramName: string
 ): [T | undefined, Dispatch<SetSearchParamStateAction<T | undefined>>];
 
-export function useSearchParam<T extends string>(paramName: string, defaultValue?: T) {
+export function useSearchParam<T extends Json>(paramName: string, defaultValue?: T) {
     const getCurrentValue = () =>
-        decodeParam((new URLSearchParams(window.location.search).get(paramName) as T) ?? undefined) as
+        decodeParam((new URLSearchParams(window.location.search).get(paramName) as string) ?? undefined) as
             | T
             | undefined;
     const [currentState, setCurrentState] = useState<T | undefined>(getCurrentValue());

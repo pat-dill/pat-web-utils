@@ -5,7 +5,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.useSearchParam = void 0;
 const doesThrow_1 = __importDefault(require("../doesThrow"));
-const useAnimationFrame_1 = require("./useAnimationFrame");
 const react_1 = require("react");
 function encodeParam(obj) {
     if (typeof obj === "string" && (0, doesThrow_1.default)(JSON.parse, obj)) {
@@ -31,14 +30,11 @@ function useSearchParam(paramName, defaultValue) {
         return decodeParam((_a = new URLSearchParams(window.location.search).get(paramName)) !== null && _a !== void 0 ? _a : undefined);
     };
     const [currentState, setCurrentState] = (0, react_1.useState)(getCurrentValue());
-    (0, useAnimationFrame_1.useAnimationFrame)(() => {
-        setCurrentState(getCurrentValue());
-    });
     (0, react_1.useEffect)(() => {
         const listener = () => setCurrentState(getCurrentValue());
         window.addEventListener("popstate", listener);
         return () => window.removeEventListener("popstate", listener);
-    });
+    }, []);
     const setState = (value) => {
         const params = new URLSearchParams(window.location.search);
         let newValue;
@@ -49,14 +45,17 @@ function useSearchParam(paramName, defaultValue) {
         else {
             newValue = value;
         }
-        if (newValue == undefined || newValue === defaultValue) {
+        if (newValue === undefined || newValue === defaultValue) {
             params.delete(paramName);
         }
         else {
             params.set(paramName, encodeParam(newValue));
         }
-        window.location.search = params.toString();
+        const newUrl = new URL(window.location.href);
+        newUrl.search = params.toString();
+        window.history.pushState(undefined, "", newUrl);
+        setCurrentState(newValue);
     };
-    return [currentState, setState];
+    return [currentState !== null && currentState !== void 0 ? currentState : defaultValue, setState];
 }
 exports.useSearchParam = useSearchParam;
