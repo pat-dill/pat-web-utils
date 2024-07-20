@@ -55,7 +55,7 @@ export function useSearchParam<T extends string>(paramName: string, defaultValue
             newValue = value;
         }
 
-        if (newValue == undefined || newValue === defaultValue) {
+        if (newValue === undefined || newValue === defaultValue) {
             params.delete(paramName);
         } else {
             params.set(paramName, encodeParam(newValue));
