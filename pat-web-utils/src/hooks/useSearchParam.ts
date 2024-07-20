@@ -67,5 +67,5 @@ export function useSearchParam<T extends Json>(paramName: string, defaultValue?:
         setCurrentState(newValue);
     };
 
-    return [currentState ?? defaultValue, setState];
+    return [currentState === undefined ? defaultValue : currentState, setState];
 }

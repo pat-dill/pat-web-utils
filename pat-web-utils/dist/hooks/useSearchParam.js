@@ -56,6 +56,6 @@ function useSearchParam(paramName, defaultValue) {
         window.history.pushState(undefined, "", newUrl);
         setCurrentState(newValue);
     };
-    return [currentState !== null && currentState !== void 0 ? currentState : defaultValue, setState];
+    return [currentState === undefined ? defaultValue : currentState, setState];
 }
 exports.useSearchParam = useSearchParam;
