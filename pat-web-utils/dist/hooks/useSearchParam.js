@@ -35,7 +35,7 @@ function useSearchParam(paramName, defaultValue) {
         window.addEventListener("popstate", listener);
         return () => window.removeEventListener("popstate", listener);
     }, []);
-    const setState = (value) => {
+    const setState = (value, openInNewTab) => {
         const params = new URLSearchParams(window.location.search);
         let newValue;
         if (typeof value === "function") {
@@ -53,8 +53,13 @@ function useSearchParam(paramName, defaultValue) {
         }
         const newUrl = new URL(window.location.href);
         newUrl.search = params.toString();
-        window.history.pushState(undefined, "", newUrl);
-        setCurrentState(newValue);
+        if (openInNewTab) {
+            window.open(newUrl, "_blank");
+        }
+        else {
+            window.history.pushState(undefined, "", newUrl);
+            setCurrentState(newValue);
+        }
     };
     return [currentState === undefined ? defaultValue : currentState, setState];
 }

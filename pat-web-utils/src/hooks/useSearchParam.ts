@@ -2,7 +2,7 @@ import {Json} from "../types/json";
 import doesThrow from "../doesThrow";
 import {useEffect, useState} from "react";
 
-type Dispatch<A> = (value: A) => void;
+type Dispatch<A> = (value: A, openInNewTab?: boolean) => void;
 type SetSearchParamStateAction<S> = S | ((prevState?: S) => S);
 
 function encodeParam(obj: Json): string {
@@ -44,7 +44,7 @@ export function useSearchParam<T extends Json>(paramName: string, defaultValue?:
         return () => window.removeEventListener("popstate", listener);
     }, []);
 
-    const setState: Dispatch<SetSearchParamStateAction<T>> = (value) => {
+    const setState: Dispatch<SetSearchParamStateAction<T>> = (value, openInNewTab) => {
         const params = new URLSearchParams(window.location.search);
 
         let newValue: T | undefined;
@@ -63,8 +63,12 @@ export function useSearchParam<T extends Json>(paramName: string, defaultValue?:
 
         const newUrl = new URL(window.location.href);
         newUrl.search = params.toString();
-        window.history.pushState(undefined, "", newUrl);
-        setCurrentState(newValue);
+        if (openInNewTab) {
+            window.open(newUrl, "_blank");
+        } else {
+            window.history.pushState(undefined, "", newUrl);
+            setCurrentState(newValue);
+        }
     };
 
     return [currentState === undefined ? defaultValue : currentState, setState];
