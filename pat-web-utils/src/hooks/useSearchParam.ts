@@ -1,6 +1,6 @@
-import {Json} from "../types/json";
+import { Json } from "../types/json";
 import doesThrow from "../doesThrow";
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 
 type Dispatch<A> = (value: A, openInNewTab?: boolean) => void;
 type SetSearchParamStateAction<S> = S | ((prevState?: S) => S);

@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.useSearchParam = exports.useAnimationFrame = exports.useSpring = exports.useSyncedInterval = exports.useStopwatch = exports.useIsMobile = exports.useImageColorFromUrl = exports.useImageColor = void 0;
+exports.useDelayedValue = exports.useSearchParam = exports.useAnimationFrame = exports.useSpring = exports.useSyncedInterval = exports.useStopwatch = exports.useIsMobile = exports.useImageColorFromUrl = exports.useImageColor = void 0;
 var useImageColor_1 = require("./useImageColor");
 Object.defineProperty(exports, "useImageColor", { enumerable: true, get: function () { return useImageColor_1.useImageColor; } });
 Object.defineProperty(exports, "useImageColorFromUrl", { enumerable: true, get: function () { return useImageColor_1.useImageColorFromUrl; } });
@@ -16,3 +16,5 @@ var useAnimationFrame_1 = require("./useAnimationFrame");
 Object.defineProperty(exports, "useAnimationFrame", { enumerable: true, get: function () { return useAnimationFrame_1.useAnimationFrame; } });
 var useSearchParam_1 = require("./useSearchParam");
 Object.defineProperty(exports, "useSearchParam", { enumerable: true, get: function () { return useSearchParam_1.useSearchParam; } });
+var useDelayedValue_1 = require("./useDelayedValue");
+Object.defineProperty(exports, "useDelayedValue", { enumerable: true, get: function () { return useDelayedValue_1.useDelayedValue; } });

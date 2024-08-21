@@ -5,3 +5,4 @@ export { useSyncedInterval } from "./useSyncedInterval";
 export { useSpring } from "./useSpring";
 export { useAnimationFrame } from "./useAnimationFrame";
 export { useSearchParam } from "./useSearchParam";
+export { useDelayedValue } from "./useDelayedValue";

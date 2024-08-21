@@ -1,5 +1,5 @@
 import './App.css'
-import {FadingContainer, useSearchParam} from "../../pat-web-utils/src";
+import {FadingContainer, useDelayedValue, useSearchParam} from "../../pat-web-utils/src";
 import {useCallback, useState} from "react";
 
 const initialRows = []
@@ -20,9 +20,12 @@ function App() {
         }, Math.random() * 200 + 50);
     }), [rows]);
 
-    const [field1, setField1] = useSearchParam<number>("field1", 0);
+    const [field1, setField1] = useSearchParam<number>("field1", 100);
+
     const [field2, setField2] = useSearchParam<string>("field2", "");
-    const [field3, setField3] = useSearchParam<boolean>("field3", false);
+    const debouncedField2 = useDelayedValue(field2, 500);
+
+    const [field3, setField3] = useSearchParam<boolean>("field4", false);
 
     return <div className="w-full text-left">
         <div className="mx-auto w-full max-w-2xl flex flex-col gap-8 mt-8">
@@ -49,20 +52,23 @@ function App() {
                     </span>
                     <input
                         type="number"
-                        value={field1}
+                        value={field1.toString()}
                         onChange={e => setField1(parseFloat(e.target.value))}
                     />
                 </div>
 
-                <div className="flex gap-2 items-center flex-nowrap">
+                <div>
+                    <div className="flex gap-2 items-center flex-nowrap">
                     <span>
                         ?field2=
                     </span>
-                    <input
-                        type="text"
-                        value={field2}
-                        onChange={e => setField2(e.target.value)}
-                    />
+                        <input
+                            type="text"
+                            value={field2}
+                            onChange={e => setField2(e.target.value)}
+                        />
+                    </div>
+                    <span>{debouncedField2}</span>
                 </div>
 
                 <div className="flex gap-2 items-center flex-nowrap">
