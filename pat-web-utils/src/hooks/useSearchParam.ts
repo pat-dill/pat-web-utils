@@ -2,7 +2,8 @@ import { Json } from "../types/json";
 import doesThrow from "../doesThrow";
 import { useEffect, useState } from "react";
 
-type Dispatch<A> = (value: A, openInNewTab?: boolean) => void;
+type Target = "_replace" | "_blank" | "_self" | "_parent" | "_top";
+type Dispatch<A> = (value: A, target?: Target) => void;
 type SetSearchParamStateAction<S> = S | ((prevState?: S) => S);
 
 function encodeParam(obj: Json): string {
@@ -25,13 +26,20 @@ function decodeParam(text?: string): Json | undefined {
 
 export function useSearchParam<T extends Json>(
     paramName: string,
-    defaultValue: T
+    defaultValue: T,
+    target?: Target
 ): [T, Dispatch<SetSearchParamStateAction<T>>];
 export function useSearchParam<T extends Json>(
     paramName: string
 ): [T | undefined, Dispatch<SetSearchParamStateAction<T | undefined>>];
 
-export function useSearchParam<T extends Json>(paramName: string, defaultValue?: T) {
+export function useSearchParam<T extends Json>(
+    paramName: string,
+    defaultValue?: T,
+    target: Target = "_replace"
+) {
+    const defaultTarget = target;
+
     const getCurrentValue = () =>
         decodeParam((new URLSearchParams(window.location.search).get(paramName) as string) ?? undefined) as
             | T
@@ -44,7 +52,7 @@ export function useSearchParam<T extends Json>(paramName: string, defaultValue?:
         return () => window.removeEventListener("popstate", listener);
     }, []);
 
-    const setState: Dispatch<SetSearchParamStateAction<T>> = (value, openInNewTab) => {
+    const setState: Dispatch<SetSearchParamStateAction<T>> = (value, target) => {
         const params = new URLSearchParams(window.location.search);
 
         let newValue: T | undefined;
@@ -63,11 +71,19 @@ export function useSearchParam<T extends Json>(paramName: string, defaultValue?:
 
         const newUrl = new URL(window.location.href);
         newUrl.search = params.toString();
-        if (openInNewTab) {
-            window.open(newUrl, "_blank");
-        } else {
-            window.history.pushState(undefined, "", newUrl);
-            setCurrentState(newValue);
+        target ??= defaultTarget;
+        switch (target) {
+            case "_self":
+                window.history.pushState(undefined, "", newUrl);
+                setCurrentState(newValue);
+                break;
+            case "_replace":
+                window.history.replaceState(undefined, "", newUrl);
+                setCurrentState(newValue);
+                break;
+            default:
+                window.open(newUrl, target);
+                break;
         }
     };
 
