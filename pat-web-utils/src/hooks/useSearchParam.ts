@@ -3,7 +3,7 @@ import doesThrow from "../doesThrow";
 import { useEffect, useState } from "react";
 
 type Target = "_replace" | "_blank" | "_self" | "_parent" | "_top";
-type Dispatch<A> = (value: A, target?: Target | boolean) => void;
+type Dispatch<A> = (value: A, targetOrNewTab?: Target | boolean) => void;
 type SetSearchParamStateAction<S> = S | ((prevState?: S) => S);
 
 function encodeParam(obj: Json): string {
