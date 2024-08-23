@@ -3,7 +3,7 @@ import doesThrow from "../doesThrow";
 import { useEffect, useState } from "react";
 
 type Target = "_replace" | "_blank" | "_self" | "_parent" | "_top";
-type Dispatch<A> = (value: A, target?: Target) => void;
+type Dispatch<A> = (value: A, target?: Target | boolean) => void;
 type SetSearchParamStateAction<S> = S | ((prevState?: S) => S);
 
 function encodeParam(obj: Json): string {
@@ -28,6 +28,11 @@ export function useSearchParam<T extends Json>(
     paramName: string,
     defaultValue: T,
     target?: Target
+): [T, Dispatch<SetSearchParamStateAction<T>>];
+export function useSearchParam<T extends Json>(
+    paramName: string,
+    defaultValue: T,
+    newTab?: boolean
 ): [T, Dispatch<SetSearchParamStateAction<T>>];
 export function useSearchParam<T extends Json>(
     paramName: string
@@ -81,8 +86,15 @@ export function useSearchParam<T extends Json>(
                 window.history.replaceState(undefined, "", newUrl);
                 setCurrentState(newValue);
                 break;
+            case true:
+                window.open(newUrl, "_blank");
+                break;
+            case false:
+                window.history.pushState(undefined, "", newUrl);
+                setCurrentState(newValue);
+                break;
             default:
-                window.open(newUrl, target);
+                window.open(newUrl, target as Target);
                 break;
         }
     };
