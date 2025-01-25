@@ -5,7 +5,7 @@ import { useQuery } from "react-query";
 
 const cf = new ColorThief();
 
-const getImageColor = (img: HTMLImageElement) => {
+export const getImageColor = (img: HTMLImageElement) => {
     const [r, g, b] = cf.getColor(img);
     return rgbToHex(r, g, b);
 };
