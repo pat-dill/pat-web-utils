@@ -41,7 +41,7 @@ export function useSearchParam<T extends Json>(
 export function useSearchParam<T extends Json>(
     paramName: string,
     defaultValue?: T,
-    target: Target = "_replace"
+    target: Target | boolean = "_replace"
 ) {
     const defaultTarget = target;
 

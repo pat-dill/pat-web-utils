@@ -24,7 +24,8 @@ function decodeParam(text) {
         return text;
     }
 }
-function useSearchParam(paramName, defaultValue) {
+function useSearchParam(paramName, defaultValue, target = "_replace") {
+    const defaultTarget = target;
     const getCurrentValue = () => {
         var _a;
         return decodeParam((_a = new URLSearchParams(window.location.search).get(paramName)) !== null && _a !== void 0 ? _a : undefined);
@@ -35,7 +36,7 @@ function useSearchParam(paramName, defaultValue) {
         window.addEventListener("popstate", listener);
         return () => window.removeEventListener("popstate", listener);
     }, []);
-    const setState = (value, openInNewTab) => {
+    const setState = (value, target) => {
         const params = new URLSearchParams(window.location.search);
         let newValue;
         if (typeof value === "function") {
@@ -53,12 +54,26 @@ function useSearchParam(paramName, defaultValue) {
         }
         const newUrl = new URL(window.location.href);
         newUrl.search = params.toString();
-        if (openInNewTab) {
-            window.open(newUrl, "_blank");
-        }
-        else {
-            window.history.pushState(undefined, "", newUrl);
-            setCurrentState(newValue);
+        target !== null && target !== void 0 ? target : (target = defaultTarget);
+        switch (target) {
+            case "_self":
+                window.history.pushState(undefined, "", newUrl);
+                setCurrentState(newValue);
+                break;
+            case "_replace":
+                window.history.replaceState(undefined, "", newUrl);
+                setCurrentState(newValue);
+                break;
+            case true:
+                window.open(newUrl, "_blank");
+                break;
+            case false:
+                window.history.pushState(undefined, "", newUrl);
+                setCurrentState(newValue);
+                break;
+            default:
+                window.open(newUrl, target);
+                break;
         }
     };
     return [currentState === undefined ? defaultValue : currentState, setState];

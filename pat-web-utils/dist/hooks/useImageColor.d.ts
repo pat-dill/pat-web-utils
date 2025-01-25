@@ -1,4 +1,5 @@
 import { MutableRefObject } from "react";
+export declare const getImageColor: (img: HTMLImageElement) => string;
 export declare function useImageColor(imgRef: MutableRefObject<HTMLImageElement>): string | undefined;
 export declare function useImageColorFromUrl(url: string | null | undefined): {
     color: string | null | undefined;
