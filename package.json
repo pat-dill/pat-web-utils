@@ -22,7 +22,7 @@
   "files": [
     "dist"
   ],
-  "author": "pat dill <jamespatrickdill@gmail.com>",
+  "author": "pat dill <ppygrl@proton.me>",
   "license": "ISC",
   "peerDependencies": {
     "react": "^18",
